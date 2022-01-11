@@ -22,15 +22,11 @@
 `QUEUES`: There are 4 types of Queues:
 
   * `Simple Tail`: Linear structure where the elements leave in the same order in which they arrive.
-
   * `Circular Tail`: Logical Representation of a Simple Queue in an Array
-
   * `Priority Queue`: Linear structure in which the elements are inserted in any position of the queue and are removed only from the front.
-        
   * `Double Tail`: Linear structure in which elements can be added or removed at either end of the tail.
-        
   **Queue Implementation:**
-                Arrangement, Linked Lists. 
+    Arrangement, Linked Lists. 
                 
 ### What are the most common use cases of stacks and queues?
 
