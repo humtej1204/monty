@@ -25,11 +25,16 @@
   * `Circular Tail`: Logical Representation of a Simple Queue in an Array
   * `Priority Queue`: Linear structure in which the elements are inserted in any position of the queue and are removed only from the front.
   * `Double Tail`: Linear structure in which elements can be added or removed at either end of the tail.
+
   **Queue Implementation:**
     Arrangement, Linked Lists. 
                 
 ### What are the most common use cases of stacks and queues?
+ * `STACKS`: Expresiones Aritmeticas, Operaciones, Funciones Recursivas, Control de secuencia de Programas.
+ * `QUEUES`: Arreglo, Listas Ligadas.
 
 ### What is the proper way to use global variables?
+Global variables should be used when multiple functions need to access the data or write to an object. For example, if you had to pass data or a reference to multiple functions such as a single log file, a connection pool, or a hardware reference that needs to be accessed across the application. This prevents very long function declarations and large allocations of duplicated data.
 
+You should typically not use global variables unless absolutely necessary because global variables are only cleaned up when explicitly told to do so or your program ends. If you are running a multi-threaded application, multiple functions can write to the variable at the same time. If you have a bug, tracking that bug down can be more difficult because you don't know which function is changing the variable. You also run into the problem of naming conflicts unless you use a naming convention that explicitly gives global variables a unique name.
 ***
