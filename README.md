@@ -1,4 +1,4 @@
-# 0x18. C - Dynamic libraries
+# 0x19. C - Stacks, Queues - LIFO, FIFO
 > **Holberton Proyect - Week 17**
 ***
 
