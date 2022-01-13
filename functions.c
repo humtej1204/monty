@@ -46,6 +46,7 @@ char *read_file(char *executable, char *filename, stores *cmd)
 char **text_tokenizator(stores *cmd)
 {
 	int i = 0, j = 0, count = 0;
+	char *ptr = NULL;
 
 	while (*(cmd->buffer + i))
 	{
@@ -61,6 +62,17 @@ char **text_tokenizator(stores *cmd)
 	}
 	while ((cmd->line_token[j] = strtok(cmd->buffer, "\n")) != NULL)
 	{
+		ptr = cmd->line_token[j];
+		printf("value -> %s\n", cmd->line_token[j]);
+		while (*ptr == 32 || *ptr == 9)
+		{
+			ptr++;
+			if (*ptr == '\0')
+			{
+				j--;
+				break;
+			}
+		}
 		cmd->buffer = NULL;
 		j++;
 	}
