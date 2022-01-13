@@ -103,7 +103,7 @@ int line_tokenizator(stores *cmd, stack_t *stack)
 			cmd->line_token[i] = NULL;
 			n++;
 		}
-		validator = match(cmd->word_token, i - 1, &stack);
+		validator = match(cmd->word_token, i, &stack);
 		if (validator == -1)
 		{
 			return (i);
@@ -147,7 +147,6 @@ int match(char **word_token, int line_number, stack_t **stack)
 		/*{"rotl", rotl},*/
 		/*{"rotr", rotr},*/
 		/*{"stack", stack},*/
-		/*{"queue", queue},*/
 	};
 	while (flag[pos].opcode)
 	{
@@ -156,6 +155,11 @@ int match(char **word_token, int line_number, stack_t **stack)
 			if (word_token[1] != NULL)
 			{
 				value = atoi(word_token[1]);
+				if (value == 0)
+				{
+					fprintf(stderr, "L%d: usage: push integer\n", line_number);
+					exit(EXIT_FAILURE);
+				}
 			}
 			flag[pos].f(stack, line_number);
 			return (result);
