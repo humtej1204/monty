@@ -63,7 +63,6 @@ char **text_tokenizator(stores *cmd)
 	while ((cmd->line_token[j] = strtok(cmd->buffer, "\n")) != NULL)
 	{
 		ptr = cmd->line_token[j];
-		printf("value -> %s\n", cmd->line_token[j]);
 		while (*ptr == 32 || *ptr == 9)
 		{
 			ptr++;
