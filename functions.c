@@ -106,7 +106,7 @@ int line_tokenizator(stores *cmd, stack_t *stack)
 		validator = match(cmd->word_token, i, &stack);
 		if (validator == -1)
 		{
-			return (i);
+			return (i + 1);
 		}
 		free(cmd->word_token);
 		n = 0;
@@ -142,11 +142,7 @@ int match(char **word_token, int line_number, stack_t **stack)
 		{"mul", mul},
 		{"mod", mod},
 		{"#", hashtag},
-		/*{"pchar", pchar},*/
-		/*{"pstr", pstr},*/
-		/*{"rotl", rotl},*/
-		/*{"rotr", rotr},*/
-		/*{"stack", stack},*/
+		{NULL, NULL},
 	};
 	while (flag[pos].opcode)
 	{
@@ -157,7 +153,7 @@ int match(char **word_token, int line_number, stack_t **stack)
 				value = atoi(word_token[1]);
 				if (value == 0)
 				{
-					fprintf(stderr, "L%d: usage: push integer\n", line_number);
+					fprintf(stderr, "L%d: usage: push integer\n", line_number + 1);
 					exit(EXIT_FAILURE);
 				}
 			}
