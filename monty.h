@@ -61,6 +61,7 @@ char *read_file(char *executable, char *filename, stores *cmd);
 char **text_tokenizator(stores *cmd);
 int line_tokenizator(stores *cmd, stack_t *stack);
 int match(char **word_token, int line_number, stack_t **stack);
+char *_strtok(char *buff);
 /*Opcode*/
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);

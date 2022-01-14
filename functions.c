@@ -41,12 +41,11 @@ char *read_file(char *executable, char *filename, stores *cmd)
  *
  * @cmd: struct that save the tokens
  *
- * Return: End Program
+ * Return: double pointer
  */
 char **text_tokenizator(stores *cmd)
 {
 	int i = 0, j = 0, count = 0;
-	char *ptr = NULL;
 
 	while (*(cmd->buffer + i))
 	{
@@ -60,22 +59,51 @@ char **text_tokenizator(stores *cmd)
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	while ((cmd->line_token[j] = strtok(cmd->buffer, "\n")) != NULL)
+	while ((cmd->line_token[j] = _strtok(cmd->buffer)) != NULL)
 	{
-		ptr = cmd->line_token[j];
-		while (*ptr == 32 || *ptr == 9)
-		{
-			ptr++;
-			if (*ptr == '\0')
-			{
-				j--;
-				break;
-			}
-		}
 		cmd->buffer = NULL;
 		j++;
 	}
 	return (cmd->line_token);
+}
+/**
+ * _strtok - Function that separate the text by "\n"
+ *
+ * @buff: buffer
+ *
+ * Return: Pointer
+ */
+char *_strtok(char *buff)
+{
+	int i = 0;
+	char *set = NULL, *string = NULL;
+	static char *save;
+
+	buff = (buff) ? buff : save;
+	set = buff;
+	while (*set == ' ' || *set == '\t' || *set == '\n')
+	{
+		if (*set == '\n')
+		{
+			*set = '\0';
+			set++;
+			save = set;
+			return ("nop");
+		}
+		set++;
+	}
+	string = set;
+	while (*set != '\0' && *set != '\n')
+	{
+		set++;
+		i++;
+	}
+	*set = '\0';
+	set++;
+	save = set;
+	if (*string == '\0')
+		return (NULL);
+	return (string);
 }
 /**
  * line_tokenizator - Function that separate the line tokens by espaces
