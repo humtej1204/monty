@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 	value = line_tokenizator(&cmd, stack);
 	if (value != 0)
 	{
-		fprintf(stderr, "L<%d>: unknown instruction <opcode>\n", value);
+		fprintf(stderr, "L<%d>: unknown instruction <opcode>\n", value + 1);
 		exit(EXIT_FAILURE);
 	}
 	free(ptr);
