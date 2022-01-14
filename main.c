@@ -1,55 +1,74 @@
 #include "monty.h"
-int value = 0;
+#include "lists.h"
+
+data_t data = DATA_INIT;
+
 /**
- * main - Main function
+ * monty - helper function for main function
+ * @args: pointer to struct of arguments from main
  *
- * @argc: number of arguments
- * @argv: contend of the arguments
- *
- * Return: End program
+ * Description: opens and reads from the file
+ * containing the opcodes, and calls the function
+ * that will find the corresponding executing function
  */
-int main(int argc, char *argv[])
+void monty(args_t *args)
 {
-	stores cmd;
-	stack_t *stack = NULL;
-	char *ptr = NULL, **ptr2;
-	/* Verify the number of arguments passed to the program */
+	size_t len = 0;
+	int get = 0;
+	void (*code_func)(stack_t **, unsigned int);
 
-	if (argc != 2)
+	if (args->ac != 2)
 	{
-		fprintf(stderr, "USAGE: monty file\n");
+		dprintf(STDERR_FILENO, USAGE);
 		exit(EXIT_FAILURE);
 	}
-	/* Verify if the text can be readed and returned a buffer with the text*/
-	ptr = read_file(argv[0], argv[1], &cmd);
-	ptr2 = text_tokenizator(&cmd);
-
-	/* Separate line's text in words */
-	value = line_tokenizator(&cmd, stack);
-	if (value != 0)
+	data.fptr = fopen(args->av, "r");
+	if (!data.fptr)
 	{
-		fprintf(stderr, "L<%d>: unknown instruction <opcode>\n", value + 1);
+		dprintf(STDERR_FILENO, FILE_ERROR, args->av);
 		exit(EXIT_FAILURE);
 	}
-	free(ptr);
-	free(ptr2);
-
-	return (0);
+	while (1)
+	{
+		args->line_number++;
+		get = getline(&(data.line), &len, data.fptr);
+		if (get < 0)
+			break;
+		data.words = strtow(data.line);
+		if (data.words[0] == NULL || data.words[0][0] == '#')
+		{
+			free_all(0);
+			continue;
+		}
+		code_func = get_func(data.words);
+		if (!code_func)
+		{
+			dprintf(STDERR_FILENO, UNKNOWN, args->line_number, data.words[0]);
+			free_all(1);
+			exit(EXIT_FAILURE);
+		}
+		code_func(&(data.stack), args->line_number);
+		free_all(0);
+	}
+	free_all(1);
 }
 
 /**
- * dfree_list - clean the double linked list
+ * main - entry point for monty bytecode interpreter
+ * @argc: number of arguments
+ * @argv: array of arguments
  *
- * @head: pointer to the linked list
+ * Return: EXIT_SUCCESS or EXIT_FAILURE
  */
-void dfree_list(stack_t **head)
+int main(int argc, char *argv[])
 {
-	if (head == NULL)
-		return;
+	args_t args;
 
-	if (*head)
-	{
-		dfree_list(&((*head)->next));
-		free(*head);
-	}
+	args.av = argv[1];
+	args.ac = argc;
+	args.line_number = 0;
+
+	monty(&args);
+
+	return (EXIT_SUCCESS);
 }
